@@ -18,11 +18,14 @@ function fish_prompt
     set initial_indicator "$red✖ $last_status"
     set status_indicator "$red❯$red❯$red❯"
   end
-  set -l cwd $cyan(basename (prompt_pwd))
+  set -l cwd $cyan(prompt_pwd)
 
   if [ (_git_branch_name) ]
 
     if test (_git_branch_name) = 'master'
+      set -l git_branch (_git_branch_name)
+      set git_info "$normal git:($red$git_branch$normal)"
+    else if test (_git_branch_name) = 'main'
       set -l git_branch (_git_branch_name)
       set git_info "$normal git:($red$git_branch$normal)"
     else
@@ -71,4 +74,3 @@ end
 function _is_git_dirty
   echo (command git status -s --ignore-submodules=dirty 2>/dev/null)
 end
-
